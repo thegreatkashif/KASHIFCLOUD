@@ -1,0 +1,31 @@
+# Secrets
+.env
+*.key
+*.pem
+*.crt
+
+# Logs
+logs/
+*.log
+
+# Docker
+data/
+config/
+
+# Databases
+*.db
+*.sqlite
+
+# Backups
+backups/
+
+# Temporary
+tmp/
+cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
