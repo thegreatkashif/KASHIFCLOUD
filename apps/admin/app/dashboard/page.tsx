@@ -5,6 +5,7 @@ import { StatCard } from "@/app/components/StatCard";
 import { ContainerTable } from "@/app/components/ContainerTable";
 import { StorageBrowser } from "@/app/components/StorageBrowser";
 import { NetworkDevices } from "@/app/components/NetworkDevices";
+import { JobsPanel } from "@/app/components/JobsPanel";
 
 function formatBytes(bytes: number) {
   const gb = bytes / 1024 ** 3;
@@ -65,7 +66,12 @@ export default function DashboardPage() {
       </div>
 
       <h2 className="text-xl font-semibold mb-4">Network Devices</h2>
-      <NetworkDevices />
+      <div className="mb-8">
+        <NetworkDevices />
+      </div>
+
+      <h2 className="text-xl font-semibold mb-4">Automation Jobs</h2>
+      <JobsPanel />
     </div>
   );
 }
