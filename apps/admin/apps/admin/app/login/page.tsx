@@ -11,6 +11,10 @@ export default function LoginPage() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+
+    console.log("submit fired");
+    
+
     setError("");
 
     const res = await fetch("/api/login", {

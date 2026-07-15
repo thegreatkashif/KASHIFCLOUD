@@ -10,6 +10,7 @@ export default function LoginPage() {
   const router = useRouter();
 
   async function handleSubmit(e: React.FormEvent) {
+    console.log("handleSubmit called")
     e.preventDefault();
     setError("");
 
