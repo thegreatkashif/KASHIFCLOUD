@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import health
+from app.api.routes import auth, health, monitoring
+from app.core.bootstrap import init_db
 from app.core.config import get_settings
 
 settings = get_settings()
@@ -19,7 +20,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
+@app.on_event("startup")
+def on_startup():
+    init_db()
+
+
 app.include_router(health.router)
+app.include_router(auth.router)
+app.include_router(monitoring.router)
 
 
 @app.get("/")
