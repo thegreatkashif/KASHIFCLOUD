@@ -41,6 +41,9 @@ services:
       DOCKER_HOST: tcp://docker-socket-proxy:2375
     ports:
       - "8000:8000"
+    volumes:
+      - ${HOME}/kashif-storage:/storage/local
+      - /mnt/kashif-nas:/storage/nas
     depends_on:
       - db
       - docker-socket-proxy
