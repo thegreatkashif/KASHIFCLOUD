@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.routes import auth, health, monitoring
+from app.api.routes import auth, docker, health, monitoring
 from app.core.bootstrap import init_db
 from app.core.config import get_settings
 
@@ -29,6 +29,7 @@ def on_startup():
 app.include_router(health.router)
 app.include_router(auth.router)
 app.include_router(monitoring.router)
+app.include_router(docker.router)
 
 
 @app.get("/")

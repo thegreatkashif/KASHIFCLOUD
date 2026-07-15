@@ -8,3 +8,4 @@ python-jose[cryptography]==3.3.0
 python-multipart==0.0.20
 bcrypt==4.0.1
 psutil==6.1.1
+docker==7.1.0

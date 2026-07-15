@@ -2,6 +2,7 @@
 
 import { useSystemStats } from "@/app/hooks/useSystemStats";
 import { StatCard } from "@/app/components/StatCard";
+import { ContainerTable } from "@/app/components/ContainerTable";
 
 function formatBytes(bytes: number) {
   const gb = bytes / 1024 ** 3;
@@ -27,7 +28,7 @@ export default function DashboardPage() {
       {!stats && <p className="text-neutral-400">Waiting for data...</p>}
 
       {stats && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <StatCard
             label="CPU"
             value={`${stats.cpu.percent.toFixed(1)}%`}
@@ -50,6 +51,9 @@ export default function DashboardPage() {
           />
         </div>
       )}
+
+      <h2 className="text-xl font-semibold mb-4">Containers</h2>
+      <ContainerTable />
     </div>
   );
 }
