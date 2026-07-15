@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: ../apps/api
+    container_name: kashif-api
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16-alpine
+    container_name: kashif-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kashif
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: kashif_cloud
+    volumes:
+      - kashif_db_data:/var/lib/postgresql/data
+
+volumes:
+  kashif_db_data:
