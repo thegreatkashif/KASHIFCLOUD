@@ -4,6 +4,7 @@ import { useSystemStats } from "@/app/hooks/useSystemStats";
 import { StatCard } from "@/app/components/StatCard";
 import { ContainerTable } from "@/app/components/ContainerTable";
 import { StorageBrowser } from "@/app/components/StorageBrowser";
+import { NetworkDevices } from "@/app/components/NetworkDevices";
 
 function formatBytes(bytes: number) {
   const gb = bytes / 1024 ** 3;
@@ -59,7 +60,12 @@ export default function DashboardPage() {
       </div>
 
       <h2 className="text-xl font-semibold mb-4">Storage</h2>
-      <StorageBrowser />
+      <div className="mb-8">
+        <StorageBrowser />
+      </div>
+
+      <h2 className="text-xl font-semibold mb-4">Network Devices</h2>
+      <NetworkDevices />
     </div>
   );
 }

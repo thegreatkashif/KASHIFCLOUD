@@ -44,6 +44,7 @@ services:
     volumes:
       - ${HOME}/kashif-storage:/storage/local
       - /mnt/kashif-nas:/storage/nas
+      - ${HOME}/kashif-network:/network:ro
     depends_on:
       - db
       - docker-socket-proxy
