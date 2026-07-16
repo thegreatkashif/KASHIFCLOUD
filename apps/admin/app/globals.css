@@ -1,1 +1,60 @@
 @import "tailwindcss";
+
+:root {
+  --void: #05050a;
+  --panel: #0d0d14;
+  --panel-border: #2a1620;
+  --crimson: #b8202f;
+  --crimson-glow: #ff3350;
+  --violet: #6a35a8;
+  --gold: #c9a24b;
+  --text-primary: #ece7ea;
+  --text-muted: #7a7480;
+}
+
+@keyframes seal-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes seal-rotate-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+@keyframes seal-charge {
+  0% { filter: drop-shadow(0 0 6px var(--crimson)); }
+  50% { filter: drop-shadow(0 0 24px var(--crimson-glow)); }
+  100% { filter: drop-shadow(0 0 6px var(--crimson)); }
+}
+
+@keyframes card-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+@keyframes flicker-in {
+  0% { opacity: 0; }
+  8% { opacity: 1; }
+  10% { opacity: 0.2; }
+  12% { opacity: 1; }
+  100% { opacity: 1; }
+}
+
+.animate-shake {
+  animation: card-shake 0.4s ease-in-out;
+}
+
+.animate-flicker-in {
+  animation: flicker-in 0.6s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
