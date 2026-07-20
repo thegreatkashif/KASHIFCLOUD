@@ -51,6 +51,19 @@ services:
     networks:
       - kashif-internal
 
+  admin:
+    image: kashif-admin:latest
+    container_name: kashif-admin
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    env_file:
+      - ../apps/admin/.env.local
+    depends_on:
+      - api
+    networks:
+      - kashif-internal
+
   db:
     image: postgres:16-alpine
     container_name: kashif-db

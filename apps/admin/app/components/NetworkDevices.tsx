@@ -15,38 +15,62 @@ export function NetworkDevices() {
   const { devices, lastScan, loading } = useNetworkDevices();
 
   if (loading) {
-    return <p className="text-neutral-400">Scanning...</p>;
+    return (
+      <p style={{ color: "var(--text-muted)", fontFamily: "var(--font-jetbrains-mono)" }}>
+        Scanning...
+      </p>
+    );
   }
 
   return (
-    <div className="bg-neutral-900 rounded-lg border border-neutral-800 overflow-hidden">
-      <div className="flex items-center justify-between border-b border-neutral-800 p-3">
-        <span className="text-sm text-neutral-300">
+    <div
+      className="rounded-lg overflow-hidden"
+      style={{ background: "var(--panel)", border: "1px solid var(--panel-border)" }}
+    >
+      <div
+        className="flex items-center justify-between p-3"
+        style={{ borderBottom: "1px solid var(--panel-border)" }}
+      >
+        <span className="text-sm" style={{ color: "var(--text-primary)" }}>
           {devices.length} device{devices.length === 1 ? "" : "s"} connected
         </span>
-        <span className="text-xs text-neutral-500">
+        <span
+          className="text-xs"
+          style={{ color: "var(--text-muted)", fontFamily: "var(--font-jetbrains-mono)" }}
+        >
           Last scan: {timeAgo(lastScan)}
         </span>
       </div>
 
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-neutral-800 text-left text-neutral-400">
-            <th className="p-3">Device</th>
-            <th className="p-3">IP Address</th>
-            <th className="p-3">MAC Address</th>
-            <th className="p-3">Vendor</th>
+          <tr style={{ borderBottom: "1px solid var(--panel-border)" }}>
+            {["Device", "IP Address", "MAC Address", "Vendor"].map((h) => (
+              <th
+                key={h}
+                className="p-3 text-left text-xs tracking-widest"
+                style={{ fontFamily: "var(--font-jetbrains-mono)", color: "var(--text-muted)" }}
+              >
+                {h.toUpperCase()}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {devices.map((d) => (
-            <tr key={d.mac} className="border-b border-neutral-800 last:border-0">
-              <td className="p-3 text-white">
+            <tr key={d.mac} style={{ borderBottom: "1px solid var(--panel-border)" }}>
+              <td className="p-3" style={{ color: "var(--text-primary)" }}>
                 {d.hostname ? d.hostname : "Unknown Device"}
               </td>
-              <td className="p-3 text-neutral-300">{d.ip}</td>
-              <td className="p-3 text-neutral-400 font-mono text-xs">{d.mac}</td>
-              <td className="p-3 text-neutral-400">{d.vendor}</td>
+              <td className="p-3 text-xs" style={{ color: "var(--text-muted)", fontFamily: "var(--font-jetbrains-mono)" }}>
+                {d.ip}
+              </td>
+              <td className="p-3 text-xs" style={{ color: "var(--text-muted)", fontFamily: "var(--font-jetbrains-mono)" }}>
+                {d.mac}
+              </td>
+              <td className="p-3 text-xs" style={{ color: "var(--text-muted)" }}>
+                {d.vendor}
+              </td>
             </tr>
           ))}
         </tbody>

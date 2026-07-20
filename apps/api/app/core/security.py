@@ -23,9 +23,25 @@ def create_access_token(subject: str) -> str:
     return jwt.encode(payload, settings.jwt_secret, algorithm=settings.jwt_algorithm)
 
 
+from jose import JWTError
+
 def decode_access_token(token: str) -> str | None:
     try:
-        payload = jwt.decode(token, settings.jwt_secret, algorithms=[settings.jwt_algorithm])
+        payload = jwt.decode(
+            token,
+            settings.jwt_secret,
+            algorithms=[settings.jwt_algorithm],
+        )
+
+        print("PAYLOAD:", payload)
         return payload.get("sub")
-    except Exception:
+
+    except JWTError as e:
+        print("JWT ERROR:", type(e).__name__)
+        print(str(e))
+        return None
+
+    except Exception as e:
+        print("OTHER ERROR:", type(e).__name__)
+        print(str(e))
         return None

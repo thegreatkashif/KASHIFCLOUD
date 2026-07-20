@@ -6,6 +6,7 @@ import { ContainerTable } from "@/app/components/ContainerTable";
 import { StorageBrowser } from "@/app/components/StorageBrowser";
 import { NetworkDevices } from "@/app/components/NetworkDevices";
 import { JobsPanel } from "@/app/components/JobsPanel";
+import { SectionHeader } from "@/app/components/SectionHeader";
 
 function formatBytes(bytes: number) {
   const gb = bytes / 1024 ** 3;
@@ -17,21 +18,43 @@ export default function DashboardPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold">Overview</h1>
-        <span
-          className={`text-xs px-2 py-1 rounded-full ${
-            connected ? "bg-green-900 text-green-400" : "bg-red-900 text-red-400"
-          }`}
+      <div className="flex items-center justify-between mb-8">
+        <h1
+          className="text-xl tracking-widest"
+          style={{ fontFamily: "var(--font-orbitron)", color: "var(--text-primary)" }}
         >
-          {connected ? "Live" : "Disconnected"}
+          OVERVIEW
+        </h1>
+        <span
+          className="text-xs px-3 py-1 rounded-full flex items-center gap-2 tracking-wide"
+          style={{
+            fontFamily: "var(--font-jetbrains-mono)",
+            background: connected ? "rgba(63,174,106,0.12)" : "rgba(184,32,47,0.12)",
+            color: connected ? "var(--success)" : "var(--crimson-glow)",
+          }}
+        >
+          <span
+            className="pulse-dot"
+            style={{
+              width: "6px",
+              height: "6px",
+              borderRadius: "50%",
+              background: connected ? "var(--success)" : "var(--crimson-glow)",
+              display: "inline-block",
+            }}
+          />
+          {connected ? "LIVE" : "DISCONNECTED"}
         </span>
       </div>
 
-      {!stats && <p className="text-neutral-400">Waiting for data...</p>}
+      {!stats && (
+        <p style={{ color: "var(--text-muted)", fontFamily: "var(--font-jetbrains-mono)" }}>
+          Waiting for data...
+        </p>
+      )}
 
       {stats && (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
           <StatCard
             label="CPU"
             value={`${stats.cpu.percent.toFixed(1)}%`}
@@ -55,23 +78,25 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <h2 className="text-xl font-semibold mb-4">Containers</h2>
-      <div className="mb-8">
+      <div className="mb-10">
+        <SectionHeader title="Containers" />
         <ContainerTable />
       </div>
 
-      <h2 className="text-xl font-semibold mb-4">Storage</h2>
-      <div className="mb-8">
+      <div className="mb-10">
+        <SectionHeader title="Storage" />
         <StorageBrowser />
       </div>
 
-      <h2 className="text-xl font-semibold mb-4">Network Devices</h2>
-      <div className="mb-8">
+      <div className="mb-10">
+        <SectionHeader title="Network Devices" />
         <NetworkDevices />
       </div>
 
-      <h2 className="text-xl font-semibold mb-4">Automation Jobs</h2>
-      <JobsPanel />
+      <div>
+        <SectionHeader title="Automation Jobs" />
+        <JobsPanel />
+      </div>
     </div>
   );
 }

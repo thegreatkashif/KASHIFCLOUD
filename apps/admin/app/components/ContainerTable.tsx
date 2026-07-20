@@ -8,63 +8,91 @@ function formatBytes(bytes: number) {
   return mb.toFixed(0) + " MB";
 }
 
-function statusColor(status: string) {
-  if (status === "running") return "bg-green-900 text-green-400";
-  if (status === "exited") return "bg-red-900 text-red-400";
-  return "bg-neutral-800 text-neutral-400";
+function statusStyle(status: string) {
+  if (status === "running") {
+    return { background: "rgba(63,174,106,0.12)", color: "var(--success)" };
+  }
+  if (status === "exited") {
+    return { background: "rgba(184,32,47,0.12)", color: "var(--crimson-glow)" };
+  }
+  return { background: "var(--panel-border)", color: "var(--text-muted)" };
 }
 
 export function ContainerTable() {
   const { containers, loading, performAction } = useContainers();
 
   if (loading) {
-    return <p className="text-neutral-400">Loading containers...</p>;
+    return (
+      <p style={{ color: "var(--text-muted)", fontFamily: "var(--font-jetbrains-mono)" }}>
+        Loading containers...
+      </p>
+    );
   }
 
   return (
-    <div className="bg-neutral-900 rounded-lg border border-neutral-800 overflow-hidden">
+    <div
+      className="rounded-lg overflow-hidden"
+      style={{ background: "var(--panel)", border: "1px solid var(--panel-border)" }}
+    >
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b border-neutral-800 text-left text-neutral-400">
-            <th className="p-3">Name</th>
-            <th className="p-3">Image</th>
-            <th className="p-3">Status</th>
-            <th className="p-3">CPU</th>
-            <th className="p-3">Memory</th>
-            <th className="p-3">Actions</th>
+          <tr style={{ borderBottom: "1px solid var(--panel-border)" }}>
+            {["Name", "Image", "Status", "CPU", "Memory", "Actions"].map((h) => (
+              <th
+                key={h}
+                className="p-3 text-left text-xs tracking-widest"
+                style={{ fontFamily: "var(--font-jetbrains-mono)", color: "var(--text-muted)" }}
+              >
+                {h.toUpperCase()}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {containers.map((c) => (
-            <tr key={c.id} className="border-b border-neutral-800 last:border-0">
-              <td className="p-3 text-white">{c.name}</td>
-              <td className="p-3 text-neutral-400">{c.image}</td>
+            <tr key={c.id} style={{ borderBottom: "1px solid var(--panel-border)" }}>
+              <td className="p-3" style={{ color: "var(--text-primary)" }}>
+                {c.name}
+              </td>
+              <td className="p-3 text-xs" style={{ color: "var(--text-muted)" }}>
+                {c.image}
+              </td>
               <td className="p-3">
-                <span className={"text-xs px-2 py-1 rounded-full " + statusColor(c.status)}>
-                  {c.status}
+                <span
+                  className="text-xs px-2 py-1 rounded-full"
+                  style={statusStyle(c.status)}
+                >
+                  {c.status.toUpperCase()}
                 </span>
               </td>
-              <td className="p-3 text-neutral-300">{c.cpu_percent}%</td>
-              <td className="p-3 text-neutral-300">{formatBytes(c.memory_usage)}</td>
+              <td className="p-3 text-xs" style={{ color: "var(--text-muted)", fontFamily: "var(--font-jetbrains-mono)" }}>
+                {c.cpu_percent}%
+              </td>
+              <td className="p-3 text-xs" style={{ color: "var(--text-muted)", fontFamily: "var(--font-jetbrains-mono)" }}>
+                {formatBytes(c.memory_usage)}
+              </td>
               <td className="p-3 space-x-2">
                 <button
                   onClick={() => performAction(c.id, "start")}
                   disabled={c.status === "running"}
-                  className="text-xs px-2 py-1 rounded bg-green-800 text-green-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-green-700"
+                  className="text-xs px-2 py-1 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                  style={{ background: "rgba(63,174,106,0.15)", color: "var(--success)" }}
                 >
                   Start
                 </button>
                 <button
                   onClick={() => performAction(c.id, "stop")}
                   disabled={c.status !== "running"}
-                  className="text-xs px-2 py-1 rounded bg-red-800 text-red-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-red-700"
+                  className="text-xs px-2 py-1 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                  style={{ background: "rgba(184,32,47,0.15)", color: "var(--crimson-glow)" }}
                 >
                   Stop
                 </button>
                 <button
                   onClick={() => performAction(c.id, "restart")}
                   disabled={c.status !== "running"}
-                  className="text-xs px-2 py-1 rounded bg-blue-800 text-blue-200 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-blue-700"
+                  className="text-xs px-2 py-1 rounded disabled:opacity-30 disabled:cursor-not-allowed"
+                  style={{ background: "rgba(106,53,168,0.2)", color: "var(--violet)" }}
                 >
                   Restart
                 </button>

@@ -2,10 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const token = req.cookies.get("kashif_token")?.value;
+  console.log("token: ", token?.slice(0, 30));
   if (!token) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
+  console.log("Sending Authorization:", "Bearer " + token?.slice(0, 30));
   const res = await fetch(process.env.API_URL + "/docker/containers", {
     headers: { Authorization: "Bearer " + token },
     cache: "no-store",

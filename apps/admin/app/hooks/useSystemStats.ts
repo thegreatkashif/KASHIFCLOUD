@@ -24,7 +24,10 @@ export function useSystemStats() {
 
       if (cancelled) return;
 
-      const host = process.env.NEXT_PUBLIC_API_HOST;
+      const host = 
+        typeof window !== "undefined"
+          ? window.location.hostname + ":8000"
+          : process.env.NEXT_PUBLIC_API_HOST!;
       const ws = new WebSocket(`ws://${host}/monitoring/ws?token=${token}`);
       wsRef.current = ws;
 

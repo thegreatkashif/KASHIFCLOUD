@@ -8,10 +8,30 @@ export function StatCard({
   sub?: string;
 }) {
   return (
-    <div className="bg-neutral-900 rounded-lg p-4 border border-neutral-800">
-      <p className="text-sm text-neutral-400">{label}</p>
-      <p className="text-2xl font-semibold text-white mt-1">{value}</p>
-      {sub && <p className="text-xs text-neutral-500 mt-1">{sub}</p>}
+    <div
+      className="rounded-lg p-4"
+      style={{ background: "var(--panel)", border: "1px solid var(--panel-border)" }}
+    >
+      <p
+        className="text-xs tracking-widest"
+        style={{ fontFamily: "var(--font-jetbrains-mono)", color: "var(--text-muted)" }}
+      >
+        {label.toUpperCase()}
+      </p>
+      <p
+        className="text-2xl mt-1"
+        style={{ fontFamily: "var(--font-orbitron)", color: "var(--text-primary)" }}
+      >
+        {value}
+      </p>
+      {sub && (
+        <p
+          className="text-xs mt-1"
+          style={{ fontFamily: "var(--font-jetbrains-mono)", color: "var(--text-muted)" }}
+        >
+          {sub}
+        </p>
+      )}
     </div>
   );
 }
