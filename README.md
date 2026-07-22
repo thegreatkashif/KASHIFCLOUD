@@ -2,6 +2,8 @@
 
 > The command center for your homelab.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Self-hosted infrastructure control plane for a personal homelab — monitor,
 control, and automate every server, container, and drive you own, from one
 dark, restricted-access console.
