@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Orbitron, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { BackgroundEffects } from "@/app/components/BackgroundEffects";
 
 const orbitron = Orbitron({
   variable: "--font-orbitron",
@@ -36,6 +37,7 @@ export default function RootLayout({
       className={`${orbitron.variable} ${inter.variable} ${jetbrainsMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col" style={{ fontFamily: "var(--font-inter)" }}>
+        <BackgroundEffects />
         {children}
       </body>
     </html>

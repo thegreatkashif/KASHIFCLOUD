@@ -17,10 +17,16 @@ export function useContainers() {
   const [loading, setLoading] = useState(true);
 
   const fetchContainers = useCallback(async () => {
-    const res = await fetch("/api/docker/containers");
-    if (res.ok) {
-      const data = await res.json();
-      setContainers(data);
+    try {
+      const res = await fetch("/api/docker/containers");
+      if (res.ok) {
+        const data = await res.json();
+        setContainers(Array.isArray(data) ? data : []);
+      } else {
+        setContainers([]);
+      }
+    } catch {
+      setContainers([]);
     }
     setLoading(false);
   }, []);

@@ -20,9 +20,16 @@ export function useJobs() {
   const [loading, setLoading] = useState(true);
 
   const fetchJobs = useCallback(async () => {
-    const res = await fetch("/api/jobs");
-    if (res.ok) {
-      setJobs(await res.json());
+    try {
+      const res = await fetch("/api/jobs");
+      if (res.ok) {
+        const data = await res.json();
+        setJobs(Array.isArray(data) ? data : []);
+      } else {
+        setJobs([]);
+      }
+    } catch {
+      setJobs([]);
     }
     setLoading(false);
   }, []);

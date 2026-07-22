@@ -16,11 +16,17 @@ export function useNetworkDevices() {
 
   useEffect(() => {
     async function fetchDevices() {
-      const res = await fetch("/api/network/devices");
-      if (res.ok) {
-        const data = await res.json();
-        setDevices(data.devices);
-        setLastScan(data.last_scan);
+      try {
+        const res = await fetch("/api/network/devices");
+        if (res.ok) {
+          const data = await res.json();
+          setDevices(Array.isArray(data.devices) ? data.devices : []);
+          setLastScan(data.last_scan ?? null);
+        } else {
+          setDevices([]);
+        }
+      } catch {
+        setDevices([]);
       }
       setLoading(false);
     }

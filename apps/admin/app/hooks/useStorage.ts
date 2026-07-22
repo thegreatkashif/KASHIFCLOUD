@@ -20,9 +20,20 @@ export function useStorageRoots() {
   const [roots, setRoots] = useState<StorageRoot[]>([]);
 
   useEffect(() => {
-    fetch("/api/storage/roots")
-      .then((r) => r.json())
-      .then(setRoots);
+    async function load() {
+      try {
+        const res = await fetch("/api/storage/roots");
+        if (res.ok) {
+          const data = await res.json();
+          setRoots(Array.isArray(data) ? data : []);
+        } else {
+          setRoots([]);
+        }
+      } catch {
+        setRoots([]);
+      }
+    }
+    load();
   }, []);
 
   return roots;
@@ -34,11 +45,18 @@ export function useStorageBrowser(root: string, path: string) {
 
   const refresh = useCallback(async () => {
     setLoading(true);
-    const res = await fetch(
-      "/api/storage/browse?root=" + root + "&path=" + encodeURIComponent(path)
-    );
-    if (res.ok) {
-      setEntries(await res.json());
+    try {
+      const res = await fetch(
+        "/api/storage/browse?root=" + root + "&path=" + encodeURIComponent(path)
+      );
+      if (res.ok) {
+        const data = await res.json();
+        setEntries(Array.isArray(data) ? data : []);
+      } else {
+        setEntries([]);
+      }
+    } catch {
+      setEntries([]);
     }
     setLoading(false);
   }, [root, path]);

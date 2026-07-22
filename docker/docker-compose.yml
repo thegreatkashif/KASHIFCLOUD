@@ -1,5 +1,4 @@
 version: "3.9"
-
 services:
   docker-socket-proxy:
     image: tecnativa/docker-socket-proxy:latest
@@ -29,7 +28,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - kashif-internal
-
   api:
     build:
       context: ../apps/api
@@ -50,20 +48,22 @@ services:
       - docker-socket-proxy
     networks:
       - kashif-internal
-
   admin:
-    image: kashif-admin:latest
+    build:
+      context: ../apps/admin
+      args:
+        NEXT_PUBLIC_API_HOST: 192.168.31.154:8000
     container_name: kashif-admin
     restart: unless-stopped
     ports:
       - "3002:3000"
-    env_file:
-      - ../apps/admin/.env.local
+    environment:
+      API_URL: http://api:8000
+      COOKIE_SECURE: "false"
     depends_on:
       - api
     networks:
       - kashif-internal
-
   db:
     image: postgres:16-alpine
     container_name: kashif-db
@@ -76,10 +76,8 @@ services:
       - kashif_db_data:/var/lib/postgresql/data
     networks:
       - kashif-internal
-
 networks:
   kashif-internal:
     driver: bridge
-
 volumes:
   kashif_db_data:
